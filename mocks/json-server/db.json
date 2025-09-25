@@ -1,0 +1,100 @@
+{
+  "todos": [
+    {
+      "compromisse": "Reunião de planejamento",
+      "done": false,
+      "id": 1,
+      "dates": {
+        "created_at": "2023-09-25T09:00:00Z",
+        "updated_at": "2023-09-25T09:00:00Z",
+        "finished_at": null
+      },
+      "isDeleted": false,
+      "user_id": 1001,
+      "description": "Reunião semanal de planejamento com equipe"
+    },
+    {
+      "compromisse": "Code review PR-123",
+      "done": true,
+      "id": 2,
+      "dates": {
+        "created_at": "2023-09-24T14:30:00Z",
+        "updated_at": "2023-09-25T10:15:00Z",
+        "finished_at": "2023-09-25T10:15:00Z"
+      },
+      "user_id": 1002,
+      "description": "Revisar pull request da feature de login"
+    },
+    {
+      "compromisse": "Deploy para produção",
+      "done": false,
+      "id": 3,
+      "dates": {
+        "created_at": "2023-09-25T08:00:00Z",
+        "updated_at": "2023-09-25T08:00:00Z"
+      },
+      "isDeleted": false,
+      "user_id": 1001
+    },
+    {
+      "compromisse": "Daily Scrum",
+      "done": true,
+      "id": 4,
+      "dates": {
+        "created_at": "2023-09-25T11:00:00Z",
+        "updated_at": "2023-09-25T11:15:00Z",
+        "finished_at": "2023-09-25T11:15:00Z"
+      },
+      "user_id": 1003
+    },
+    {
+      "compromisse": "Documentação API",
+      "done": false,
+      "id": 5,
+      "dates": {
+        "created_at": "2023-09-25T13:00:00Z"
+      },
+      "isDeleted": false,
+      "user_id": 1002,
+      "description": "Atualizar documentação Swagger da API"
+    }
+  ],
+  "users": [
+    {
+      "id": 1001,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "profile": "admin"
+    },
+    {
+      "id": 1002,
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "profile": "user"
+    },
+    {
+      "id": 1003,
+      "name": "Robert Johnson",
+      "email": "robert.johnson@example.com",
+      "profile": "user"
+    },
+    {
+      "id": 1004,
+      "name": "Sarah Williams",
+      "email": "sarah.williams@example.com",
+      "profile": "admin"
+    },
+    {
+      "id": 1005,
+      "name": "Michael Brown",
+      "email": "michael.brown@example.com",
+      "profile": "user"
+    }
+  ],
+  "user": {
+    "id": 1001,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "profile": "admin" 
+  }
+}

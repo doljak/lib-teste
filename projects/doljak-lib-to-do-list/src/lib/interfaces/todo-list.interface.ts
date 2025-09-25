@@ -1,0 +1,15 @@
+export interface TodoList {
+    compromisse: string;
+    done: boolean;
+    id: number;
+    dates: DateConstructor;
+    isDeleted?: boolean;
+    user_id: number;
+    description?: string;
+}
+
+interface DateConstructor {
+    created_at: Date;
+    updated_at?: Date;
+    finished_at?: Date | null;
+}

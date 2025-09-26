@@ -92,7 +92,7 @@
     }
   ],
   "user": {
-    "id": 1001,
+    "id": "1001",
     "name": "John Doe",
     "email": "john.doe@example.com",
     "profile": "admin"

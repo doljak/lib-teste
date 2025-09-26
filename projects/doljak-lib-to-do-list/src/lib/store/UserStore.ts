@@ -1,5 +1,6 @@
-import { Injectable, signal } from '@angular/core';
-import { computed } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface User {
   id: string;
@@ -13,18 +14,29 @@ export interface User {
 })
 export class UserStore {
   // Private state
-  private readonly _currentUser = signal<User | null>(null);
+  private readonly _currentUser = new BehaviorSubject<User | null>(null);
 
   // Public selectors
-  readonly currentUser = computed(() => this._currentUser());
-  readonly isAdmin = computed(() => this._currentUser()?.profile === 'admin');
+  readonly currentUser$: Observable<User | null> = this._currentUser.asObservable();
+  readonly isAdmin$: Observable<boolean> = this.currentUser$.pipe(
+    map(user => user?.profile === 'admin')
+  );
 
-  // Actions
-  setCurrentUser(user: User) {
-    this._currentUser.set(user);
+  // Getters for current values
+  get currentUser(): User | null {
+    return this._currentUser.getValue();
   }
 
-  clearCurrentUser() {
-    this._currentUser.set(null);
+  get isAdmin(): boolean {
+    return this.currentUser?.profile === 'admin';
+  }
+
+  // Actions
+  setCurrentUser(user: User): void {
+    this._currentUser.next(user);
+  }
+
+  clearCurrentUser(): void {
+    this._currentUser.next(null);
   }
 }

@@ -60,6 +60,11 @@
             "tsConfig": "projects/playground-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+               {
+                "glob": "**/*",
+                "input": "projects/doljak-lib-to-do-list/src/lib/assets",
+                "output": "assets"
+              },
               {
                 "glob": "**/*",
                 "input": "projects/playground-app/public"

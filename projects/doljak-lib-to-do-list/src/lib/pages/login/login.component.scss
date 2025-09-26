@@ -76,23 +76,52 @@ $border-color: #ccc;
   }
 
   .google-login {
-    margin-bottom: 1rem;
+    width: 100%;
+    background-color: $white;
+    color: $secondary-text-color;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-family: $secondary-font;
+    font-weight: 500;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 
-    .google-button {
-      background-color: $google-blue;
-      color: $white;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-      font-family: $secondary-font;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
+    img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
 
-      &:hover {
-        background-color: $google-blue-dark;
-      }
+    &:hover {
+      background-color: darken($white, 5%);
+      border-color: darken($border-color, 10%);
+    }
+  }
+
+  // Add divider between regular login and Google login
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1rem 0;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid $border-color;
+    }
+
+    span {
+      padding: 0 0.5rem;
+      color: $secondary-text-color;
+      font-size: 0.85rem;
     }
   }
 
@@ -107,4 +136,6 @@ $border-color: #ccc;
       color: $primary-color-dark;
     }
   }
+
+
 }

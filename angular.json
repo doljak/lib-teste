@@ -27,6 +27,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "codeCoverage": true,
             "tsConfig": "projects/doljak-lib-to-do-list/tsconfig.spec.json",
             "polyfills": [
               "zone.js",

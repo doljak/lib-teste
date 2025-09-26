@@ -12,6 +12,7 @@ export * from './lib/pages/login/login.component';
 export * from './lib/pages/not-found/not-found.component';
 export * from './lib/components/header/header.component';
 
+export * from './lib/config/injection-tokens/domain.injection.tokens';
 export * from './lib/services/todo.service';
 export * from './lib/services/cms.service';
 export * from './lib/services/auth.service';

@@ -1,0 +1,114 @@
+.not-found-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  .content {
+    z-index: 2;
+    
+    h1 {
+      font-size: 8rem;
+      margin: 0;
+      background: linear-gradient(45deg, #1a73e8, #b32af9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: #2c3e50;
+      margin: 0 0 1rem;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    button {
+      background: #1a73e8;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+      }
+    }
+  }
+
+  .animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(45deg, rgba(26, 115, 232, 0.1), rgba(179, 42, 249, 0.1));
+      animation: float 8s infinite ease-in-out;
+
+      &:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        right: -150px;
+        animation-delay: 0s;
+      }
+
+      &:nth-child(2) {
+        width: 200px;
+        height: 200px;
+        bottom: -100px;
+        left: -100px;
+        animation-delay: -2s;
+      }
+
+      &:nth-child(3) {
+        width: 150px;
+        height: 150px;
+        bottom: 20%;
+        right: 20%;
+        animation-delay: -4s;
+      }
+    }
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(10deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .not-found-container {
+    .content {
+      h1 {
+        font-size: 6rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}

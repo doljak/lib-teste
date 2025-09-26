@@ -1,1 +1,65 @@
-<p>cms works!</p>
+<div class="admin-container">
+    <!-- Current User Header -->
+    <header class="current-user-header">
+        <div class="user-info">
+            <div class="avatar">{{ currentUser.name.charAt(0) }}</div>
+            <div class="user-details">
+                <h3>{{ currentUser.name }}</h3>
+                <span class="email">{{ currentUser.email }}</span>
+                <span class="badge" [class.admin]="currentUser.profile === 'admin'">
+                    {{ currentUser.profile }}
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content-area">
+        <div class="content-header">
+            <h1>Users Management</h1>
+            <button class="add-button" (click)="addUser()">
+                <i class="fas fa-plus"></i> Add User
+            </button>
+        </div>
+
+        <!-- Users Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Profile</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users">
+                        <td>
+                            <div class="user-cell">
+                                <span class="user-avatar">{{ user.name.charAt(0) }}</span>
+                                {{ user.name }}
+                            </div>
+                        </td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <span class="badge" [class.admin]="user.profile === 'admin'">
+                                {{ user.profile }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <button class="icon-button edit" (click)="editUser(user)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="icon-button delete" (click)="deleteUser(user.id)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>

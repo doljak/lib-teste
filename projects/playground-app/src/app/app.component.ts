@@ -4,7 +4,7 @@ import { DoljakLibTestComponent } from '../../../doljak-lib-to-do-list/src/publi
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, DoljakLibTestComponent],
+  imports: [DoljakLibTestComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

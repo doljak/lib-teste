@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const libRoutes: Routes = [
   {
@@ -18,6 +19,6 @@ export const libRoutes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''
+    component: NotFoundComponent
   }
 ];

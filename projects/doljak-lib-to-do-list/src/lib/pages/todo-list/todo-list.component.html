@@ -1,1 +1,67 @@
-<p>todo-list works!</p>
+<div class="todo-container">
+  <header class="todo-header">
+    <h1>My Todo List</h1>
+    <button class="add-todo-btn">
+      <i class="fas fa-plus"></i> Add New Task
+    </button>
+  </header>
+
+  <div class="todo-filters">
+    <button [class.active]="filter === 'all'" (click)="filterTodos('all')">All</button>
+    <button [class.active]="filter === 'pending'" (click)="filterTodos('pending')">Pending</button>
+    <button [class.active]="filter === 'completed'" (click)="filterTodos('completed')">Completed</button>
+  </div>
+
+  <div class="todo-list">
+    <div *ngFor="let todo of filteredTodos" class="todo-item" [class.completed]="todo.done">
+      <div class="todo-status">
+        <input 
+          type="checkbox" 
+          [checked]="todo.done"
+          (change)="toggleTodo(todo.id)"
+        >
+      </div>
+
+      <div class="todo-content">
+        <h3 class="todo-title">{{ todo.compromisse }}</h3>
+        <p class="todo-description" *ngIf="todo.description">
+          {{ todo.description }}
+        </p>
+        <div class="todo-metadata">
+          <!-- Date information -->
+          <span class="todo-date" *ngIf="todo.dates?.created_at">
+            <i class="far fa-calendar"></i>
+            Criado: {{ todo.dates.created_at | date:'short' }}
+          </span>
+          <span class="todo-date" *ngIf="todo.dates?.updated_at">
+            <i class="far fa-clock"></i>
+            Atualizado: {{ todo.dates.updated_at | date:'short' }}
+          </span>
+          <span class="todo-date" *ngIf="todo.dates?.finished_at">
+            <i class="far fa-check-circle"></i>
+            Concluído: {{ todo.dates.finished_at | date:'short' }}
+          </span>
+          <!-- Status tag -->
+          <span class="todo-status-tag" [class.completed]="todo.done">
+            {{ todo.done ? 'Concluído' : 'Pendente' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="todo-actions">
+        <button class="edit-btn" (click)="editTodo(todo.id)">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="delete-btn" (click)="deleteTodo(todo.id)">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!todos?.length">
+    <i class="fas fa-clipboard-list"></i>
+    <p>No todos found. Create your first task!</p>
+  </div>
+</div>

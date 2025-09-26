@@ -4,11 +4,12 @@ import { take } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { TodoList, TodoListItem } from '../../interfaces/todo-list.interface';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'lib-todo-list',
   standalone: true,
-  imports: [HttpClientModule, DatePipe, NgFor, NgIf],
+  imports: [HttpClientModule, DatePipe, NgFor, NgIf, HeaderComponent],
   providers: [TodoListService],
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss']

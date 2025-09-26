@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'
 ;
 import { finalize } from 'rxjs/operators';
-import { AuthService, LoginCredentials } from '../../services/AuthService';
+import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginCredentials } from '../../interfaces/login.interface';
 
 @Component({
   selector: 'lib-login',
@@ -15,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  credentials: LoginCredentials = {
+  credentials: LoginCredentials= {
     email: '',
     password: ''
   };

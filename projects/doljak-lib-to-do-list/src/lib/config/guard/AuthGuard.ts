@@ -1,20 +1,26 @@
 import { inject } from '@angular/core';
 import { Router, type CanActivateFn } from '@angular/router';
-
-import { map } from 'rxjs/operators';
-import { UserStore } from '../../store/UserStore';
-import { PATHS } from '../../doljak-lib-to-do-list.routes';
+import { UserStore } from '../../store/user.store.';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const userStore = inject(UserStore);
   const router = inject(Router);
+  const userStore = inject(UserStore);
+  const isLocalhost = window.location.hostname === 'localhost';
+  const STORAGE_KEY = 'auth_user';
 
-  return userStore.currentUser$.pipe(
-    map(user => {
-      if (user) {
-        return true;
-      }
-      return router.createUrlTree([PATHS.login]);
-    })
-  );
+  if (isLocalhost) {
+    const storedUser = localStorage.getItem(STORAGE_KEY);
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      userStore.setCurrentUser(user);
+      return true;
+    }
+  }
+
+  if (!userStore.getLoginStatus().isLoggedIn) {
+    console.log('User not authenticated, redirecting to login');
+    return router.createUrlTree(['/login']);
+  }
+  // TODO: integracao com backend
+  return true;
 };

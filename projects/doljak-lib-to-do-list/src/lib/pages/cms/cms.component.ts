@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CmsService } from '../../services/cms.service';
+import { LOCAL_VARS } from '../../config/local/consts';
 
 interface User {
   id: string;
@@ -20,17 +21,21 @@ interface User {
 })
 export class CmsComponent implements OnInit {
   cmsService = inject(CmsService);
-  currentUser: User = {
-    id: '1001',
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    profile: 'admin'
-  };
+  currentUser: User = this.getAdminUser()
 
   users: User[] = [];
 
   ngOnInit() {
     this.loadUsers();
+  }
+
+  getAdminUser(){
+    let currentUser;
+    if(LOCAL_VARS.isLocalhost){
+      const stored = localStorage.getItem(LOCAL_VARS.STORAGE_KEY);
+      currentUser =  stored ? JSON.parse(stored) : null;
+    }
+    return currentUser  
   }
 
   loadUsers() {

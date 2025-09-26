@@ -1,6 +1,10 @@
-/* filepath: projects/doljak-lib-to-do-list/src/lib/pages/login/login.component.scss */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap');
+// 1. External URL imports
+//@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap');
 
+// 2. Sass modules with namespaces
+@use 'sass:color' as c;
+
+// 3. Variables
 $primary-font: 'Roboto', sans-serif;
 $secondary-font: 'Open Sans', sans-serif;
 $primary-color: #007bff;
@@ -99,8 +103,8 @@ $border-color: #ccc;
     }
 
     &:hover {
-      background-color: darken($white, 5%);
-      border-color: darken($border-color, 10%);
+      background-color: c.adjust($border-color, $lightness: -5%);
+      border-color: c.adjust($border-color, $lightness: -5%);
     }
   }
 

@@ -3,7 +3,7 @@
   "version": "0.0.7",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "json-server": "json-server --watch mocks/json-server/db.json",
     "start:json-server": "concurrently \"npm run start\" \"npm run json-server\"",
     "build": "ng build",

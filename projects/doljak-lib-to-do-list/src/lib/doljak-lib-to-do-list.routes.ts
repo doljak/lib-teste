@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { authGuard } from './config/guard/AuthGuard';
+import { roleGuard } from './config/guard/RoleGuard';
 
 export const PATHS = {
   login: 'login',
@@ -16,17 +18,21 @@ export const libRoutes: Routes = [
   {
     path: PATHS.login,
     loadComponent: () => 
-      import('./pages/login/login.component').then(m => m.LoginComponent)
+      import('./pages/login/login.component').then(m => m.LoginComponent),
+    
   },
   {
     path: PATHS.cms,
     loadComponent: () => 
-      import('./pages/cms/cms.component').then(m => m.CmsComponent)
+      import('./pages/cms/cms.component').then(m => m.CmsComponent),
+    canActivate: [authGuard , roleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path: PATHS.todoList,
     loadComponent: () => 
-      import('./pages/todo-list/todo-list.component').then(m => m.TodoListComponent)
+      import('./pages/todo-list/todo-list.component').then(m => m.TodoListComponent),
+    canActivate: [authGuard]
   },
   {
     path: '**',

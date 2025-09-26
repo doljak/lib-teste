@@ -16,10 +16,16 @@ export class TodoListService {
   }
 
   deleteTodo(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/todos/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/todos/${Number(id)}`);
   }
 
   updateTodo(id: number, todo: TodoListItem): Observable<TodoListItem> {
-    return this.http.put<TodoListItem>(`${this.apiUrl}/todos/${id}`, todo);
+    console.log('Updating todo with ID:', id, 'Data:', todo);
+    return this.http.put<TodoListItem>(`${this.apiUrl}/todos/${Number(id)}`, todo);
   }
+
+  addTodo(todo: TodoListItem): Observable<TodoListItem> {
+    return this.http.post<TodoListItem>(`${this.apiUrl}/todos`, todo);
+  }
+  
 }

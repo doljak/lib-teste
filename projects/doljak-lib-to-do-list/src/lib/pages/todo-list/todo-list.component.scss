@@ -32,7 +32,7 @@ $transition-default: all 0.3s ease;
     margin: 0;
     font-weight: 600;
     position: relative;
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -67,12 +67,91 @@ $transition-default: all 0.3s ease;
   }
 }
 
+.add-btn:hover {
+  filter: brightness(0.95);
+}
+
+//Form
+.add-form {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  background: #fafafa;
+  margin-bottom: 30px;
+
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    &.checkbox {
+      flex-direction: row;
+      align-items: center;
+
+      label {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+    }
+
+    label {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"] {
+      padding: 8px 10px;
+      border: 1px solid #d7d7d7;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .error {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #c62828;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      background: #1976d2;
+      color: #fff;
+    }
+
+    .btn-danger {
+      background: #e53935;
+      color: #fff;
+    }
+
+    .btn[disabled] {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+  }
+}
+
 // Filters
 .todo-filters {
   display: flex;
   gap: 0.75rem;
   margin-bottom: 2rem;
-  
+
   button {
     background: white;
     border: 2px solid $border-color;
@@ -113,7 +192,7 @@ $transition-default: all 0.3s ease;
 
   &.completed {
     background-color: $background-light;
-    
+
     .todo-title {
       text-decoration: line-through;
       color: $text-secondary;
@@ -175,7 +254,7 @@ $transition-default: all 0.3s ease;
     border-radius: 20px;
     background-color: #ffeaa7;
     font-weight: 500;
-    
+
     &.completed {
       background-color: rgba($success-color, 0.2);
       color: $success-color;

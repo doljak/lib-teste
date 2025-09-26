@@ -2,25 +2,55 @@
 <div class="todo-container">
   <header class="todo-header">
     <h1>My Todo List</h1>
-    <button class="add-todo-btn">
+    <button class="add-todo-btn" (click)="isAddingTodo = !isAddingTodo">
       <i class="fas fa-plus"></i> Add New Task
     </button>
   </header>
+  <div *ngIf="isAddingTodo">
+    <form #todoForm="ngForm" class="add-form" (ngSubmit)="addTodo(todoForm)">
+      <div class="form-row">
+        <label for="compromisse">Compromisso *</label>
+        <input id="compromisse" name="compromisse" type="text" [(ngModel)]="newTodo.compromisse" required
+          #compromisse="ngModel" />
+        <div class="error" *ngIf="compromisse.invalid && (compromisse.dirty || compromisse.touched)">
+          Compromisso é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="description">Descrição *</label>
+        <input id="description" name="description" type="text" [(ngModel)]="newTodo.description" required
+          #description="ngModel" />
+        <div class="error" *ngIf="!edit && description.invalid && (description.dirty || !edit &&description.touched)">
+          Descrição é obrigatória.
+        </div>
+      </div>
+
+      <div class="form-row checkbox">
+        <label for="done">
+          <input id="done" name="done" type="checkbox" [(ngModel)]="newTodo.done" />
+          Começa concluído
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button *ngIf="edit" type="button" (click)="editItem(todoForm)" class="btn btn-primary">Editar</button>
+        <button *ngIf="!edit" type="submit" class="btn btn-primary" [disabled]="!todoForm.valid">Adicionar</button>
+        <button type="button" class="btn btn-danger" (click)="cancelAdd()">Cancelar</button>
+      </div>
+    </form>
+  </div>
 
   <div class="todo-filters">
-    <button [class.active]="filter === 'all'" (click)="filterTodos('all')">All</button>
-    <button [class.active]="filter === 'pending'" (click)="filterTodos('pending')">Pending</button>
-    <button [class.active]="filter === 'completed'" (click)="filterTodos('completed')">Completed</button>
+    <button [class.active]="filter === 'all'" (click)="filterTodos('all')">Todos</button>
+    <button [class.active]="filter === 'pending'" (click)="filterTodos('pending')">Pendentes</button>
+    <button [class.active]="filter === 'completed'" (click)="filterTodos('completed')">Concluídos</button>
   </div>
 
   <div class="todo-list">
     <div *ngFor="let todo of filteredTodos" class="todo-item" [class.completed]="todo.done">
       <div class="todo-status">
-        <input 
-          type="checkbox" 
-          [checked]="todo.done"
-          (change)="toggleTodo(todo.id)"
-        >
+        <input type="checkbox" [checked]="todo.done" (change)="toggleTodo(todo.id)">
       </div>
 
       <div class="todo-content">
@@ -32,15 +62,15 @@
           <!-- Date information -->
           <span class="todo-date" *ngIf="todo.dates?.created_at">
             <i class="far fa-calendar"></i>
-            Criado: {{ todo.dates.created_at | date:'short' }}
+            Criado: {{ todo.dates?.created_at | date:'short' }}
           </span>
           <span class="todo-date" *ngIf="todo.dates?.updated_at">
             <i class="far fa-clock"></i>
-            Atualizado: {{ todo.dates.updated_at | date:'short' }}
+            Atualizado: {{ todo.dates?.updated_at | date:'short' }}
           </span>
           <span class="todo-date" *ngIf="todo.dates?.finished_at">
             <i class="far fa-check-circle"></i>
-            Concluído: {{ todo.dates.finished_at | date:'short' }}
+            Concluído: {{ todo.dates?.finished_at | date:'short' }}
           </span>
           <!-- Status tag -->
           <span class="todo-status-tag" [class.completed]="todo.done">
@@ -50,11 +80,11 @@
       </div>
 
       <div class="todo-actions">
-        <button class="edit-btn" (click)="editTodo(todo.id)">
-          <i class="fas fa-edit"></i>
+        <button class="edit-btn" (click)="editTodo(todo.id, edit)">
+          editar
         </button>
         <button class="delete-btn" (click)="deleteTodo(todo.id)">
-          <i class="fas fa-trash"></i>
+          excluir
         </button>
       </div>
     </div>

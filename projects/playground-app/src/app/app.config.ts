@@ -8,8 +8,9 @@ import {
 } from '../../../doljak-lib-to-do-list/src/public-api';
 
 import { environment } from '../../environments/environment';
+import { LibEnvironment } from '../../../doljak-lib-to-do-list/src/lib/interfaces/lib.enviroment.interface';
 
-const LIB_ENV_VALUE = {
+const LIB_ENV_VALUE:LibEnvironment = {
   apiBaseUrl: environment.apiBaseUrl,
   endpoints: environment.endpoints
 };

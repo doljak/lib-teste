@@ -22,3 +22,5 @@ export * from './lib/config/injection-tokens/api.base.injection.token';
 export * from './lib/interfaces/todo-list.interface';
 export * from './lib/interfaces/user.interface';
 export * from './lib/interfaces/login.interface';
+export * from './lib/interfaces/lib.enviroment.interface';
+export * from './lib/interfaces/api.url.config.interface';

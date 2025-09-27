@@ -16,7 +16,8 @@ export * from './lib/config/injection-tokens/domain.injection.tokens';
 export * from './lib/services/todo.service';
 export * from './lib/services/cms.service';
 export * from './lib/services/auth.service';
-export * from './lib/store/user.store.'
+export * from './lib/store/user.store';
+export * from './lib/config/injection-tokens/api.base.injection.token';
 
 export * from './lib/interfaces/todo-list.interface';
 export * from './lib/interfaces/user.interface';

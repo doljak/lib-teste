@@ -1,13 +1,16 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http'
+import { Router } from '@angular/router';
+;
 import { Observable, throwError } from 'rxjs';
 import { switchMap, tap, catchError, map } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { UserStore } from '../store/user.store.';
+import { UserStore } from '../store/user.store';
 import { User } from '../interfaces/user.interface';
 import { LoginCredentials, LoginStatus } from '../interfaces/login.interface';
 import { PATHS } from '../doljak-lib-to-do-list.routes';
 import { AUTH_API_URL } from '../config/injection-tokens/domain.injection.tokens';
+import { LIB_ENV, ENDPOINTS } from '../config/injection-tokens/api.base.injection.token';
+import { LibEnvironment } from '../interfaces/lib.enviroment.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +22,7 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private userStore: UserStore,
+    @Inject(LIB_ENV) private readonly baseUrl: LibEnvironment,
     @Inject(AUTH_API_URL) private readonly authBase: string
   ) { }
 
@@ -53,7 +57,9 @@ export class AuthService {
   }
 
   private validateCredentials(credentials: LoginCredentials): Observable<LoginStatus> {
-    return this.http.get<LoginStatus>(`${this.authBase}/login`).pipe(
+    console.log('Validating credentials:', this.baseUrl)
+    const loginEndpoint = this.baseUrl.endpoints?.login || ENDPOINTS.login;
+    return this.http.get<LoginStatus>(`${this.authBase}${loginEndpoint}`).pipe(
       tap(response => {
         console.log('Login response:', response);
         this.userStore.setLoginStatus(response);
@@ -62,7 +68,8 @@ export class AuthService {
   }
 
   private getUserData(): Observable<User> {
-    return this.http.get<User>(`${this.authBase}/user`);
+    const userEndpoint = this.baseUrl.endpoints?.getUser || ENDPOINTS.getUser;
+    return this.http.get<User>(`${this.authBase}${userEndpoint}`);
   }
 
   private handleAuthenticationSuccess(user: User): void {

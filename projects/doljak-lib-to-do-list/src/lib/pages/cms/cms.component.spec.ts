@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CmsComponent } from './cms.component';
 import { CmsService } from '../../services/cms.service';
-import { LOCAL_VARS } from '../../config/local/consts';
+import { DEV_ENV } from '../../config/injection-tokens/api.base.injection.token';
 import { User } from 'doljak-lib-to-do-list';
 import { of } from 'rxjs';
 
@@ -44,20 +44,20 @@ describe('CmsComponent', () => {
 
   describe('getAdminUser', () => {
     it('should return null when not localhost', () => {
-      spyOnProperty(LOCAL_VARS, 'isLocalhost', 'get').and.returnValue(false);
+      spyOnProperty(DEV_ENV, 'isLocalhost', 'get').and.returnValue(false);
       expect(component.getAdminUser()).toBeNull();
     });
 
     it('should return user from localStorage when localhost', () => {
-      spyOnProperty(LOCAL_VARS, 'isLocalhost', 'get').and.returnValue(true);
+      spyOnProperty(DEV_ENV, 'isLocalhost', 'get').and.returnValue(true);
       localStorageSpy.getItem.and.returnValue(JSON.stringify(mockUser));
       
       expect(component.getAdminUser()).toEqual(mockUser);
-      expect(localStorageSpy.getItem).toHaveBeenCalledWith(LOCAL_VARS.STORAGE_KEY);
+      expect(localStorageSpy.getItem).toHaveBeenCalledWith(DEV_ENV.STORAGE_KEY);
     });
 
     it('should return null when localStorage is empty', () => {
-      spyOnProperty(LOCAL_VARS, 'isLocalhost', 'get').and.returnValue(true);
+      spyOnProperty(DEV_ENV, 'isLocalhost', 'get').and.returnValue(true);
       localStorageSpy.getItem.and.returnValue(null);
       
       expect(component.getAdminUser()).toBeNull();

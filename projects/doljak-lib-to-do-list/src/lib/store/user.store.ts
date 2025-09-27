@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../interfaces/user.interface';
 import { LoginStatus } from '../interfaces/login.interface';
-import { LOCAL_VARS } from '../config/local/consts';
+import { DEV_ENV } from '../config/injection-tokens/api.base.injection.token';
 //TODO: Integracao com backend
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,11 @@ import { LOCAL_VARS } from '../config/local/consts';
 export class UserStore {
   
   currentUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
-    LOCAL_VARS.isLocalhost ? this.getStoredUser() : null
+    DEV_ENV.isLocalhost ? this.getStoredUser() : null
   );
   
   loginStatus$: BehaviorSubject<LoginStatus> = new BehaviorSubject<LoginStatus>(
-    LOCAL_VARS.isLocalhost ? this.getStoredLoginStatus() : { isLoggedIn: false }
+    DEV_ENV.isLocalhost ? this.getStoredLoginStatus() : { isLoggedIn: false }
   );
 
   readonly isAdmin$: Observable<boolean> = this.currentUser$.pipe(
@@ -23,10 +23,10 @@ export class UserStore {
   );
 
   private getStoredUser(): User | null {
-    if (!LOCAL_VARS.isLocalhost) return null;
+    if (!DEV_ENV.isLocalhost) return null;
     
     try {
-      const stored = localStorage.getItem(LOCAL_VARS.STORAGE_KEY);
+      const stored = localStorage.getItem(DEV_ENV.STORAGE_KEY);
       return stored ? JSON.parse(stored) : null;
     } catch (error) {
       console.error('Error reading stored user:', error);
@@ -41,8 +41,8 @@ export class UserStore {
 
   setCurrentUser(user: User): void {
     try {
-      if (LOCAL_VARS.isLocalhost) {
-        localStorage.setItem(LOCAL_VARS.STORAGE_KEY, JSON.stringify(user));
+      if (DEV_ENV.isLocalhost) {
+        localStorage.setItem(DEV_ENV.STORAGE_KEY, JSON.stringify(user));
       }
       this.currentUser$.next(user);
       this.loginStatus$.next({ isLoggedIn: true });
@@ -52,8 +52,8 @@ export class UserStore {
   }
 
   getCurrentUser(): User | null {
-    if (LOCAL_VARS.isLocalhost) {
-      const stored = localStorage.getItem(LOCAL_VARS.STORAGE_KEY);
+    if (DEV_ENV.isLocalhost) {
+      const stored = localStorage.getItem(DEV_ENV.STORAGE_KEY);
       return stored ? JSON.parse(stored) : null;
     }
     const user = this.currentUser$.getValue();
@@ -72,8 +72,8 @@ export class UserStore {
 
   clearCurrentUser(): void {
     try {
-      if (LOCAL_VARS.isLocalhost) {
-        localStorage.removeItem(LOCAL_VARS.STORAGE_KEY);
+      if (DEV_ENV.isLocalhost) {
+        localStorage.removeItem(DEV_ENV.STORAGE_KEY);
       }
       this.currentUser$.next(null);
       this.loginStatus$.next({ isLoggedIn: false });

@@ -6,7 +6,7 @@ import { take } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
-import { LOCAL_VARS } from '../../config/local/consts';
+import { DEV_ENV } from '../../config/injection-tokens/api.base.injection.token';
 
 
 @Component({
@@ -126,7 +126,7 @@ export class TodoListComponent implements OnInit {
   addTodo(form: NgForm): void {
     if (!form.valid) return; 
 
-    if (LOCAL_VARS.isLocalhost && !this.edit) {
+    if (DEV_ENV.isLocalhost && !this.edit) {
       this.newTodo.id = String(Math.floor(Math.random() * 10000));
     }
 

@@ -1,6 +1,6 @@
 import { AfterContentInit, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserStore } from '../../store/user.store.';
+import { UserStore } from '../../store/user.store';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { PATHS } from '../../doljak-lib-to-do-list.routes';

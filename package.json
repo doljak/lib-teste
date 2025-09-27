@@ -3,9 +3,11 @@
   "version": "0.0.13",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
+    "start": "ng serve playground-app --configuration=development",
+    "start:staging": "ng serve playground-app --configuration=staging",
+    "start:prod": "ng serve playground-app --configuration=production",
     "json-server": "json-server --watch mocks/json-server/db.json",
-    "start:json-server": "concurrently \"npm run start\" \"npm run json-server\"",
+    "start:dev:json-server": "concurrently \"npm run start\" \"npm run json-server\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

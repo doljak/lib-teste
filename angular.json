@@ -89,7 +89,21 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/playground-app/src/environments/environment.ts",
+                  "with": "projects/playground-app/src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/playground-app/src/environments/environment.ts",
+                  "with": "projects/playground-app/src/environments/environment.uat.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -104,6 +118,9 @@
           "configurations": {
             "production": {
               "buildTarget": "playground-app:build:production"
+            },
+            "staging": {
+              "buildTarget": "playground-app:build:staging"
             },
             "development": {
               "buildTarget": "playground-app:build:development"

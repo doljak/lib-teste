@@ -1,6 +1,6 @@
 import { inject, InjectionToken, Provider } from '@angular/core';
 import { ApiUrlConfig } from '../../interfaces/api.url.config.interface';
-import { API_BASE_URL } from '../local/consts';
+import { API_BASE_URL } from './api.base.injection.token';
 
 
 // Tokens por serviço. Por padrão, herdam de API_BASE_URL.
@@ -19,7 +19,7 @@ export const AUTH_API_URL = new InjectionToken<string>('AUTH_API_URL', {
   factory: () => inject(API_BASE_URL)
 });
 
-// Helper para configurar facilmente via providers no app host (MFE)
+// Opção para configurar facilmente via providers no app host (MFE)
 export function provideApiUrls(config: Partial<ApiUrlConfig>): Provider[] {
   const providers: Provider[] = [];
 

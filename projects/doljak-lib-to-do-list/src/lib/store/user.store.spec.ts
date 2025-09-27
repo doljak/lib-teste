@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { UserStore } from './user.store.';
-import { LOCAL_VARS } from '../config/local/consts';
+import { UserStore } from './user.store';
+import { DEV_ENV } from '../config/injection-tokens/api.base.injection.token';
 import { User } from '../interfaces/user.interface';
 import { LoginStatus } from '../interfaces/login.interface';
 
@@ -43,7 +43,7 @@ describe('UserStore', () => {
 
   describe('Initial State', () => {
     it('should initialize with null user when not localhost', () => {
-      spyOnProperty(LOCAL_VARS, 'isLocalhost').and.returnValue(false);
+      spyOnProperty(DEV_ENV, 'isLocalhost').and.returnValue(false);
       expect(store.currentUser$.getValue()).toBeNull();
     });
 
@@ -105,20 +105,20 @@ describe('UserStore', () => {
 
   describe('localStorage Interaction', () => {
     beforeEach(() => {
-      spyOnProperty(LOCAL_VARS, 'isLocalhost').and.returnValue(true);
+      spyOnProperty(DEV_ENV, 'isLocalhost').and.returnValue(true);
     });
 
     it('should store user in localStorage when in localhost', () => {
       store.setCurrentUser(mockUser);
       expect(localStorage.setItem).toHaveBeenCalledWith(
-        LOCAL_VARS.STORAGE_KEY,
+        DEV_ENV.STORAGE_KEY,
         JSON.stringify(mockUser)
       );
     });
 
     it('should remove user from localStorage when clearing', () => {
       store.clearCurrentUser();
-      expect(localStorage.removeItem).toHaveBeenCalledWith(LOCAL_VARS.STORAGE_KEY);
+      expect(localStorage.removeItem).toHaveBeenCalledWith(DEV_ENV.STORAGE_KEY);
     });
 
     it('should handle localStorage errors gracefully', () => {

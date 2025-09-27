@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Router, type CanActivateFn } from '@angular/router';
-import { UserStore } from '../../store/user.store.';
+import { UserStore } from '../../store/user.store';
 import { PATHS } from '../../doljak-lib-to-do-list.routes';
 
 export const roleGuard: CanActivateFn = (route, state) => {

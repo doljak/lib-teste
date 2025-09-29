@@ -13,14 +13,18 @@ export * from './lib/pages/not-found/not-found.component';
 export * from './lib/components/header/header.component';
 
 export * from './lib/config/injection-tokens/domain.injection.tokens';
+export * from './lib/config/injection-tokens/api.base.injection.token';
+export * from './lib/store/user.store';
+
 export * from './lib/services/todo.service';
 export * from './lib/services/cms.service';
 export * from './lib/services/auth.service';
-export * from './lib/store/user.store';
-export * from './lib/config/injection-tokens/api.base.injection.token';
+export * from './lib/services/configmap.service';
 
 export * from './lib/interfaces/todo-list.interface';
 export * from './lib/interfaces/user.interface';
 export * from './lib/interfaces/login.interface';
 export * from './lib/interfaces/lib.enviroment.interface';
 export * from './lib/interfaces/api.url.config.interface';
+export * from './lib/interfaces/personalization.interface';
+

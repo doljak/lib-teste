@@ -1,5 +1,5 @@
 export interface LibEnvironment {
-  apiBaseUrl: string;
+  apiBaseUrl?: string;
   endpoints?: LibEndpoints;
 }
 
@@ -8,4 +8,5 @@ export interface LibEndpoints {
   getUser?: string;
   login?: string;
   getTodos?: string;
+  configmap?: string;
 }

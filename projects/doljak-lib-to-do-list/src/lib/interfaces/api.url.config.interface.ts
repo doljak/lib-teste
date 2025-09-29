@@ -3,4 +3,5 @@ export interface ApiUrlConfig {
   todoBaseUrl?: string;
   cmsBaseUrl?: string;
   authBaseUrl?: string;
+  configmapBaseUrl?: string;
 }

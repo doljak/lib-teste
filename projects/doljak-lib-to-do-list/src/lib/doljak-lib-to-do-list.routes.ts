@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { authGuard } from './config/guard/AuthGuard';
-import { roleGuard } from './config/guard/RoleGuard';
+import { authGuard } from './config/guard/auth.guard';
+import { roleGuard } from './config/guard/role.guard';
 
 export const PATHS = {
   login: 'login',

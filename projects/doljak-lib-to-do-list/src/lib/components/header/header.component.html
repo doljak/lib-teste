@@ -1,11 +1,14 @@
 <header class="app-header">
     <div class="user-info" >
         <span>{{name}}</span>
-        <button *ngIf="isAdmin$ | async" class="admin-btn" (click)="navigateToAdmin()">
-            Admin Panel
+        <button *ngIf="(isAdmin$ | async) && !(isOnAdminRoute$ | async)" class="admin-btn" (click)="navigateToAdmin()">
+            Painel Admin
+        </button>
+        <button *ngIf="isOnAdminRoute$ | async" class="admin-btn" (click)="navigateToTasks()">
+            Lista de tarefas
         </button>
         <button class="logout-btn" (click)="logout()">
-            Logout
+            Sair
         </button>
     </div>
 </header>

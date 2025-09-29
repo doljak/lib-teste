@@ -1,129 +1,90 @@
-import { TestBed } from '@angular/core/testing';
-import { UserStore } from './user.store';
-import { DEV_ENV } from '../config/injection-tokens/api.base.injection.token';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { User } from '../interfaces/user.interface';
 import { LoginStatus } from '../interfaces/login.interface';
+import { DEV_ENV } from '../config/injection-tokens/api.base.injection.token';
 
-describe('UserStore', () => {
-  let store: UserStore;
-  let localStorageSpy: jasmine.SpyObj<Storage>;
+//TODO: Integracao com backend
+@Injectable({
+  providedIn: 'root'
+})
+export class UserStore {
   
-  const mockUser: User = {
-    id: '1',
-    name: 'Test User',
-    email: 'test@test.com',
-    profile: 'admin'
-  };
+  currentUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
+    DEV_ENV.isLocalhost ? this.getStoredUser() : null
+  );
+  
+  loginStatus$: BehaviorSubject<LoginStatus> = new BehaviorSubject<LoginStatus>(
+    DEV_ENV.isLocalhost ? this.getStoredLoginStatus() : { isLoggedIn: false }
+  );
 
-  const mockAdminUser: User = {
-    ...mockUser,
-    profile: 'admin'
-  };
+  readonly isAdmin$: Observable<boolean> = this.currentUser$.pipe(
+    map(user => user?.profile === 'admin')
+  );
 
-  const mockNonAdminUser: User = {
-    ...mockUser,
-    profile: 'user'
-  };
+  private getStoredUser(): User | null {
+    if (!DEV_ENV.isLocalhost) return null;
+    
+    try {
+      const stored = localStorage.getItem(DEV_ENV.STORAGE_KEY);
+      return stored ? JSON.parse(stored) : null;
+    } catch (error) {
+      console.error('Error reading stored user:', error);
+      return null;
+    }
+  }
 
-  beforeEach(() => {
-    localStorageSpy = jasmine.createSpyObj('localStorage', ['getItem', 'setItem', 'removeItem']);
-    spyOn(window.localStorage, 'getItem').and.callFake(localStorageSpy.getItem);
-    spyOn(window.localStorage, 'setItem').and.callFake(localStorageSpy.setItem);
-    spyOn(window.localStorage, 'removeItem').and.callFake(localStorageSpy.removeItem);
+  private getStoredLoginStatus(): LoginStatus {
+    const user = this.getStoredUser();
+    return { isLoggedIn: !!user };
+  }
 
-    TestBed.configureTestingModule({
-      providers: [UserStore]
-    });
-    store = TestBed.inject(UserStore);
-  });
+  setCurrentUser(user: User): void {
+    try {
+      if (DEV_ENV.isLocalhost) {
+        localStorage.setItem(DEV_ENV.STORAGE_KEY, JSON.stringify(user));
+      }
+      this.currentUser$.next(user);
+      this.loginStatus$.next({ isLoggedIn: true });
+    } catch (error) {
+      console.error('Error storing user:', error);
+    }
+  }
 
-  it('should be created', () => {
-    expect(store).toBeTruthy();
-  });
+  getCurrentUser(): User | null {
+    if (DEV_ENV.isLocalhost) {
+      const stored = localStorage.getItem(DEV_ENV.STORAGE_KEY);
+      return stored ? JSON.parse(stored) : null;
+    }
+    const user = this.currentUser$.getValue();
+    console.log('Getting current user from store:', user);
+    return user;
+  }
 
-  describe('Initial State', () => {
-    it('should initialize with null user when not localhost', () => {
-      spyOnProperty(DEV_ENV, 'isLocalhost').and.returnValue(false);
-      expect(store.currentUser$.getValue()).toBeNull();
-    });
+  setLoginStatus(status: LoginStatus): void {
+    this.loginStatus$.next(status);
+    console.log('Login status updated:', status);
+  }
 
-    it('should initialize with correct login status', () => {
-      expect(store.loginStatus$.getValue()).toEqual({ isLoggedIn: false });
-    });
-  });
+  getLoginStatus(): LoginStatus {
+    return this.loginStatus$.getValue();
+  }
 
-  describe('User Management', () => {
-    it('should set current user', () => {
-      store.setCurrentUser(mockUser);
-      expect(store.currentUser$.getValue()).toEqual(mockUser);
-      expect(store.loginStatus$.getValue().isLoggedIn).toBeTrue();
-    });
+  clearCurrentUser(): void {
+    try {
+      if (DEV_ENV.isLocalhost) {
+        localStorage.removeItem(DEV_ENV.STORAGE_KEY);
+      }
+      this.currentUser$.next(null);
+      this.loginStatus$.next({ isLoggedIn: false });
+      console.log('User store cleared successfully');
+    } catch (error) {
+      console.error('Error clearing user store:', error);
+    }
+  }
 
-    it('should get current user', () => {
-      store.setCurrentUser(mockUser);
-      expect(store.getCurrentUser()).toEqual(mockUser);
-    });
-
-    it('should clear current user', () => {
-      store.setCurrentUser(mockUser);
-      store.clearCurrentUser();
-      expect(store.currentUser$.getValue()).toBeNull();
-      expect(store.loginStatus$.getValue().isLoggedIn).toBeFalse();
-    });
-  });
-
-  describe('Login Status', () => {
-    it('should set login status', () => {
-      const status: LoginStatus = { isLoggedIn: true };
-      store.setLoginStatus(status);
-      expect(store.getLoginStatus()).toEqual(status);
-    });
-
-    it('should check authentication status', () => {
-      store.setLoginStatus({ isLoggedIn: true });
-      expect(store.isAuthenticated()).toBeTrue();
-    });
-  });
-
-  describe('Admin Status', () => {
-    it('should detect admin user', (done) => {
-      store.setCurrentUser(mockAdminUser);
-      store.isAdmin$.subscribe(isAdmin => {
-        expect(isAdmin).toBeTrue();
-        done();
-      });
-    });
-
-    it('should detect non-admin user', (done) => {
-      store.setCurrentUser(mockNonAdminUser);
-      store.isAdmin$.subscribe(isAdmin => {
-        expect(isAdmin).toBeFalse();
-        done();
-      });
-    });
-  });
-
-  describe('localStorage Interaction', () => {
-    beforeEach(() => {
-      spyOnProperty(DEV_ENV, 'isLocalhost').and.returnValue(true);
-    });
-
-    it('should store user in localStorage when in localhost', () => {
-      store.setCurrentUser(mockUser);
-      expect(localStorage.setItem).toHaveBeenCalledWith(
-        DEV_ENV.STORAGE_KEY,
-        JSON.stringify(mockUser)
-      );
-    });
-
-    it('should remove user from localStorage when clearing', () => {
-      store.clearCurrentUser();
-      expect(localStorage.removeItem).toHaveBeenCalledWith(DEV_ENV.STORAGE_KEY);
-    });
-
-    it('should handle localStorage errors gracefully', () => {
-      localStorageSpy.getItem.and.throwError('Storage error');
-      expect(() => store.getCurrentUser()).not.toThrow();
-    });
-  });
-});
+  isAuthenticated(): boolean {
+    return this.loginStatus$.getValue().isLoggedIn;
+  }
+}

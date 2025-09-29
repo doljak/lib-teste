@@ -12,13 +12,14 @@ export const ENDPOINTS = {
   getUsers: '/users',
   getUser: '/user',
   login: '/login',
-  getTodos: '/todos'
+  getTodos: '/todos',
+  configmap: '/configmap'
 };
 
 // Base genérico (fallback para localhost) injection token
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL', {
   providedIn: 'root',
-  factory: () => inject(LIB_ENV).apiBaseUrl
+  factory: () => inject(LIB_ENV).apiBaseUrl || API_BASE_URL_LOCALHOST
 });
 
 export const LIB_ENV = new InjectionToken<LibEnvironment>('LIB_ENV', {

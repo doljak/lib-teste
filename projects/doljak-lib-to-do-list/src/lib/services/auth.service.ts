@@ -57,14 +57,20 @@ export class AuthService {
   }
 
   private validateCredentials(credentials: LoginCredentials): Observable<LoginStatus> {
-    console.log('Validating credentials:', this.baseUrl)
-    const loginEndpoint = this.baseUrl.endpoints?.login || ENDPOINTS.login;
-    return this.http.get<LoginStatus>(`${this.authBase}${loginEndpoint}`).pipe(
-      tap(response => {
-        console.log('Login response:', response);
-        this.userStore.setLoginStatus(response);
-      })
-    );
+
+    //TODO: Integracao com backend
+    console.log('Validating credentials:', credentials);
+    if (credentials.email === 'test@example.com' && credentials.password === 'password') {
+      console.log('Validating credentials:', this.baseUrl)
+      const loginEndpoint = this.baseUrl.endpoints?.login || ENDPOINTS.login;
+      return this.http.get<LoginStatus>(`${this.authBase}${loginEndpoint}`).pipe(
+        tap(response => {
+          console.log('Login response:', response);
+          this.userStore.setLoginStatus(response);
+        })
+      );
+    }
+    return this.handleAuthenticationError(new Error('Invalid credentials'));
   }
 
   private getUserData(): Observable<User> {

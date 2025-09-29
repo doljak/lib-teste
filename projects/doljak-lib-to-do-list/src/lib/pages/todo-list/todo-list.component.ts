@@ -7,18 +7,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
 import { DEV_ENV } from '../../config/injection-tokens/api.base.injection.token';
+import { ConfigmapService } from '../../services/configmap.service';
+import { ConfigMap } from '../../interfaces/configmap.interface';
 
 
 @Component({
   selector: 'lib-todo-list',
   standalone: true,
   imports: [HttpClientModule, DatePipe, NgFor, NgIf, HeaderComponent, FormsModule],
-  providers: [TodoListService],
+  providers: [TodoListService, ConfigmapService],
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit {
   todoListService = inject(TodoListService);
+  configmapService = inject(ConfigmapService);
 
   todos: TodoListItem[] = [];
   filteredTodos: TodoListItem[] = [];
@@ -28,8 +31,29 @@ export class TodoListComponent implements OnInit {
   edit: boolean = false;
   btnText: string = this.edit ? 'Salvar Edição' : 'Adicionar';
 
+  configMap: ConfigMap = {
+    todoList: {
+      showFilters: false,
+      canAddTasks: false,
+      canEditTasks: false,
+      canRemoveTasks: false 
+    }
+  };
+      
+
   ngOnInit(): void {
     this.getTodos();
+    this.loadConfigMap();
+  }
+
+  loadConfigMap(): void {
+    this.configmapService.getConfig()
+      .pipe(
+        take(1)
+      ).subscribe(config => {
+        console.log('ConfigMap carregado:', config);
+        this.configMap = config;
+      });
   }
 
   getTodos(): void {

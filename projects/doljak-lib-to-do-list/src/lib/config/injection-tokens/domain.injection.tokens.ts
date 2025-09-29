@@ -19,6 +19,11 @@ export const AUTH_API_URL = new InjectionToken<string>('AUTH_API_URL', {
   factory: () => inject(API_BASE_URL)
 });
 
+export const CONFIGMAP_API_URL = new InjectionToken<string>('CONFIGMAP_API_URL', {
+  providedIn: 'root',
+  factory: () => inject(API_BASE_URL)
+});
+
 // Opção para configurar facilmente via providers no app host (MFE)
 export function provideApiUrls(config: Partial<ApiUrlConfig>): Provider[] {
   const providers: Provider[] = [];
@@ -34,6 +39,9 @@ export function provideApiUrls(config: Partial<ApiUrlConfig>): Provider[] {
   }
   if (config.authBaseUrl) {
     providers.push({ provide: AUTH_API_URL, useValue: config.authBaseUrl });
+  }
+  if (config.configmapBaseUrl) {
+    providers.push({ provide: CONFIGMAP_API_URL, useValue: config.configmapBaseUrl });
   }
 
   return providers;

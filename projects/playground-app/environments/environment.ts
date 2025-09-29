@@ -5,6 +5,7 @@ export const environment = {
     getUsers: '/users',
     getUser: '/user',
     login: '/login',
-    getTodos: '/todos'
+    getTodos: '/todos',
+    configmap: '/configmap'
   }
 };

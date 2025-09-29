@@ -40,7 +40,7 @@ A modular Angular library for task and user management, designed to seamlessly i
 ### Component Usage
 ```html
 // Basic todo list implementation
-<lib-todo-list></lib-todo-list>
+<doljak-lib-test ></doljak-lib-test>
 ```
 
 ### Default API Endpoints

@@ -285,7 +285,7 @@ $border-color: #e1e4e8;
         transition: background .2s;
 
         &:hover {
-          background: darken($primary-color, 5%);
+          background: color.adjust($primary-color, $lightness: -5%);
         }
       }
     }

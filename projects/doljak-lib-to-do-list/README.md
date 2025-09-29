@@ -1,63 +1,286 @@
-# TesteFront202509
+# Doljak Todo List Angular Library
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+## Table of Contents
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Available Routes](#available-routes)
+- [Component Usage](#component-usage)
+- [Default API Endpoints](#default-api-endpoints)
+- [Authentication Flow](#authentication-flow)
+- [Customization Options](#customization-options)
+- [Technical Stack](#technical-stack)
+- [Compatibility](#compatibility)
+- [Installation](#installation)
+  - [Package Installation](#1-package-installation)
+  - [Module Import](#2-module-import)
+  - [API Configuration](#3-configure-api-endpoints)
+  - [Route Setup](#4-add-routes-and-setup)
+  - [Styling](#5-include-styles)
+- [Development Setup](#development-setup)
+  - [Basic Usage](#basic-usage)
 
-## Code scaffolding
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Overview 
 
-```bash
-ng generate component component-name
+A modular Angular library for task and user management, designed to seamlessly integrate into larger applications. Built with Angular 16+, it provides a complete solution for todo lists with authentication, customization, and administrative features.
+
+## Key Features
+
+* **Task Management:** Complete CRUD operations for todos
+* **User Management:** Role-based access control (Admin/User)
+* **Customization:** Configurable UI elements and permissions
+* **Authentication:** Built-in auth system with route guards
+* **Responsive Design:** Mobile-first approach
+* **Modular Architecture:** Easy integration with existing projects
+
+### Available Routes
+- `/login` - Authentication page
+- `/todo-list` - Main todo list interface
+- `/admin` - Administrative panel (requires admin role)
+
+### Component Usage
+```html
+// Basic todo list implementation
+<lib-todo-list></lib-todo-list>
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Default API Endpoints
+```typescript
+// Todo List
+GET    /todos     // List all todos
+POST   /todos     // Create new todo
+PUT    /todos/:id // Update todo
+DELETE /todos/:id // Delete todo
 
-```bash
-ng generate --help
+// Users
+GET    /users     // List all users
+POST   /users     // Create user
+PUT    /users/:id // Update user
+DELETE /users/:id // Delete user
+
+// Configuration
+GET    /configmap // Get system configuration
+PUT    /configmap // Update configuration
 ```
 
-## Building
+### Authentication Flow
+1. Initial Auth Check
+   - Guards check for valid session
+   - Redirects to login if needed
+2. Login Process
+   - Credentials validation
+   - Role assignment
+   - Token generation
+3. Route Protection
+   - Todo list: authenticated users
+   - Admin panel: admin users only
+   - Login: public access
 
-To build the library, run:
+### Customization Options
+- Theme colors via SCSS variables
+- Component behavior via configuration
+- Route guards for custom authentication
+- Custom API endpoints via injection tokens
 
+## Technical Stack
+
+* Angular 16+
+* TypeScript 5.x
+* RxJS 7.x
+* JSON Server (for development)
+
+## Compatibility
+
+* Angular: ^16.0.0
+* Node.js: >=16.x
+* TypeScript: ^5.1.0
+
+// ...existing code...
+
+## Installation 
+
+### 1. Install the package
 ```bash
-ng build doljak-lib-to-do-list
+npm install doljak-lib-to-do-list
 ```
 
-This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
+### 2. Import required modules
+```typescript
+import { libRoutes } from 'doljak-lib-to-do-list';
 
-### Publishing the Library
+// Apencice 3 Option 1
+import { provideApiUrls } from 'doljak-lib-to-do-list'; 
 
-Once the project is built, you can publish your library by following these steps:
+// Apencice 3 Option 2
+import {
+  API_BASE_URL
+  TODO_API_URL, 
+  CMS_API_URL,
+  AUTH_API_URL,
+} from 'doljak-lib-to-do-list';
 
-1. Navigate to the `dist` directory:
-   ```bash
-   cd dist/doljak-lib-to-do-list
-   ```
-
-2. Run the `npm publish` command to publish your library to the npm registry:
-   ```bash
-   npm publish
-   ```
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+// Apencice 3 Option 3
+import { 
+  LIB_ENV,              //option 3a
+  provideLibEnvironment //option 3b
+} from 'doljak-lib-to-do-list';
 ```
 
-## Running end-to-end tests
+### 3. Configure API endpoints
 
-For end-to-end (e2e) testing, run:
+#### Option 1: Using provideApiUrls
+```typescript
+// In your app.config.ts(standalone) or app.module.ts (ngmodule)
 
-```bash
-ng e2e
+// ...existing code
+  providers: [
+    ...provideApiUrls({
+      baseUrl: 'http://your-api-domain.com',
+      todoBaseUrl: 'http://your-todo-api.com',          // Optional
+      cmsBaseUrl: 'http://your-cms-api.com',            // Optional
+      authBaseUrl: 'http://your-auth-api.com'           // Optional
+      configmapBaseUrl: 'http://your-configmap-api.com' // Optional 
+    })
+  ]
+// ...existing code  
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+#### Option 2: Using providers
 
-## Additional Resources
+```typescript
+// In your app.config.ts(standalone) or app.module.ts (ngmodule)
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+// ...existing code
+  providers[
+    // ...existing code
+    { provide: API_BASE_URL, useValue: 'http://localhost:3000' },
+    { provide: TODO_API_URL, useValue: 'https://todo.api.com' },    // Optional
+    { provide: CMS_API_URL, useValue: 'https://cms.api.com' },      // Optional
+    { provide: AUTH_API_URL, useValue: 'https://auth.api.com' },    // Optional
+  ]
+// ...existing code  
+```
+
+#### Option 3: Using LibEnvironment
+
+First, define your environment endpoints:
+
+```typescript
+// filepath: src/environments/environment.ts
+const LIB_ENV_VALUE:LibEnvironment = {
+  apiBaseUrl: 'http://your-api-domain.com', 
+  endpoints:  
+    getUsers: '/you-path-to-users', // Optional, default /users
+    getUser: '/user',               // Optional, default /user
+    login: '/login',                // Optional, default /login
+    getTodos: '/todos'              // Optional, default /login
+    configmap: '/configmap'         // Optional, default /configmap
+  };
+```
+
+Second, In your app.config.ts (standalone) or app.module.ts (ng module)
+
+```typescript
+// filepath: src/environments/environment.ts
+providers: [
+    //...existing code
+
+    // option 2a
+    { provide: LIB_ENV, useValue: LIB_ENV_VALUE }
+
+    // option 2b
+    ...provideLibEnvironment(LIB_ENV_VALUE),
+]
+```
+
+   
+> You can use setup of domain and settng the endpoints together that will work
+Example:
+
+> You can setup API_BASE_URL and endpoint configmap with your definitions  or
+> You can import API_BASE_URL, CONFIGMAP_API_URL and define your definitons
+
+
+### 4. Add routes and setup
+
+#### Standalone Components (recommended)
+```typescript
+// filepath: src/app/app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { libRoutes } from 'doljak-lib-to-do-list';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(libRoutes)
+  ]
+};
+```
+
+#### NgModule Setup
+```typescript
+// filepath: src/app/app.module.ts
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { libRoutes } from 'doljak-lib-to-do-list';
+
+@NgModule({
+  imports: [
+    RouterModule.forRoot(libRoutes)
+  ],
+  // ...existing code...
+})
+export class AppModule { }
+
+### 5. Include styles (optional)
+```scss
+/* In your styles.scss */
+@import 'doljak-lib-to-do-list/styles';
+```
+
+
+### Development Setup
+
+#### Basic Usage
+```html
+// filepath: src/app/app.component.html
+<doljak-lib-test></doljak-lib-test>
+```
+For local development, we recommend installing these dependencies in your host project:
+
+```bash
+# Install required dev dependencies
+npm install --save-dev json-server concurrently
+```
+
+Add this script to your package.json:
+
+Remenber to configure your environment
+
+Copy the mock database file to your project root:
+```bash
+$ cp node_modules/doljak-lib-to-do-list/mocks/json-server/db.json .
+```
+
+```json
+//filepath: package.json
+{
+  "scripts": {
+    "start": "ng serve --configuration=development",
+    "json-server": "json-server --watch you/path/to/db.json",
+    "start:dev:json-server": "concurrently \"npm run start\" \"npm run json-server\"",
+  }
+}
+```
+
+To run the application with mock API:
+```bash
+npm run start:dev:json-server
+```
+
+This will:
+- Start JSON Server on port 3000 with mock data
+- Run your Angular application
+- Watch for changes in both the API and application
+
+*Note: The mock database (db.json) provides sample data for todos, users, and configurations required by the library.*
+

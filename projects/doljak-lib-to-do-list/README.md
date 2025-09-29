@@ -15,7 +15,6 @@
   - [Module Import](#2-module-import)
   - [API Configuration](#3-configure-api-endpoints)
   - [Route Setup](#4-add-routes-and-setup)
-  - [Styling](#5-include-styles)
 - [Development Setup](#development-setup)
   - [Basic Usage](#basic-usage)
 
@@ -36,7 +35,7 @@ A modular Angular library for task and user management, designed to seamlessly i
 ### Available Routes
 - `/login` - Authentication page
 - `/todo-list` - Main todo list interface
-- `/admin` - Administrative panel (requires admin role)
+- `/cms` - Administrative panel (requires admin role)
 
 ### Component Usage
 ```html
@@ -107,10 +106,10 @@ npm install doljak-lib-to-do-list
 ```typescript
 import { libRoutes } from 'doljak-lib-to-do-list';
 
-// Apencice 3 Option 1
+// Appendix 3 Option 1
 import { provideApiUrls } from 'doljak-lib-to-do-list'; 
 
-// Apencice 3 Option 2
+// Appendix 3 Option 2
 import {
   API_BASE_URL
   TODO_API_URL, 
@@ -118,7 +117,7 @@ import {
   AUTH_API_URL,
 } from 'doljak-lib-to-do-list';
 
-// Apencice 3 Option 3
+// Appendix 3 Option 3
 import { 
   LIB_ENV,              //option 3a
   provideLibEnvironment //option 3b
@@ -193,11 +192,10 @@ providers: [
 ```
 
    
-> You can use setup of domain and settng the endpoints together that will work
+> You can set up the domain and endpoints together, and that will work.
 Example:
-
-> You can setup API_BASE_URL and endpoint configmap with your definitions  or
-> You can import API_BASE_URL, CONFIGMAP_API_URL and define your definitons
+> You can set up API_BASE_URL and the endpoint ConfigMap with your definitions, or
+> You can import API_BASE_URL and CONFIGMAP_API_URL and define your definitions.
 
 
 ### 4. Add routes and setup
@@ -230,10 +228,6 @@ import { libRoutes } from 'doljak-lib-to-do-list';
 })
 export class AppModule { }
 
-### 5. Include styles (optional)
-```scss
-/* In your styles.scss */
-@import 'doljak-lib-to-do-list/styles';
 ```
 
 

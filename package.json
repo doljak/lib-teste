@@ -1,6 +1,6 @@
 {
   "name": "doljak-lib-to-do-list",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "scripts": {
     "ng": "ng",
     "start": "ng serve playground-app --configuration=development",

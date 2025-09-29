@@ -95,7 +95,6 @@ PUT    /configmap // Update configuration
 * Node.js: >=16.x
 * TypeScript: ^5.1.0
 
-// ...existing code...
 
 ## Installation 
 
